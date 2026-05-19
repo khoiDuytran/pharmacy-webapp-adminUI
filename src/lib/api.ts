@@ -1,8 +1,8 @@
 import axios from 'axios';
 import Cookies from 'js-cookie';
 
-// const BASE_URL = "https://pharmacy-webapp-backend-uz5m.onrender.com";
-const BASE_URL = "http://localhost:8080";
+const BASE_URL = "https://pharmacy-webapp-backend-nh7b.onrender.com";
+// const BASE_URL = "http://localhost:8080";
 
 function getToken(): string | null {
   return Cookies.get("auth_token");
