@@ -1,0 +1,84 @@
+{
+  "sections": [
+    {
+      "title": "Thẻ động",
+      "type": "tags",
+      "enabled": true,
+      "order": 1,
+      "id": "yB-GuG7FSxQ"
+    },
+    {
+      "title": "Sự kiện",
+      "type": "event",
+      "enabled": true,
+      "order": 2,
+      "id": "gu-8_R_SrqA"
+    },
+    {
+      "title": "Sản phẩm ưu đãi",
+      "type": "discount",
+      "enabled": true,
+      "order": 3,
+      "id": "so29w1xeH5A"
+    },
+    {
+      "title": "Lợi ích",
+      "type": "bannerGrid",
+      "enabled": true,
+      "order": 4,
+      "id": "xA-tBqleJf4"
+    },
+    {
+      "title": "Sản phẩm phổ biến",
+      "type": "topSeller",
+      "enabled": true,
+      "order": 5,
+      "id": "9Rrqd1O2UvE"
+    },
+    {
+      "title": "Sản phẩm khác",
+      "type": "other",
+      "enabled": true,
+      "order": 6,
+      "id": "o2aQSBMa8S4"
+    }
+  ],
+  "tags": [
+    {
+      "title": "Cần mua thuốc",
+      "type": "openProductList",
+      "enabled": true,
+      "order": 1,
+      "id": "yB-GuG7FSxQ"
+    },
+    {
+      "title": "Tư vấn ngay",
+      "type": "openChatbot",
+      "enabled": true,
+      "order": 2,
+      "id": "gu-8_R_SrqA"
+    },
+    {
+      "title": "Tìm nhà thuốc",
+      "type": "openLocation",
+      "enabled": true,
+      "order": 5,
+      "id": "xA-tBqleJf4"
+    },
+    {
+      "title": "Deal siêu hot",
+      "type": "openSuperDeal",
+      "enabled": true,
+      "order": 4,
+      "id": "so29w1xeH5A"
+    },
+    {
+      "title": "Đơn của tôi",
+      "type": "openMyOrders",
+      "enabled": true,
+      "order": 3,
+      "id": "o2aQSBMa8S4"
+    }
+  ],
+  "$schema": "./node_modules/json-server/schema.json"
+}
