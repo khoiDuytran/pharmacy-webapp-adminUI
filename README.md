@@ -1,73 +1,87 @@
-# Welcome to your Lovable project
+# Pharmacy Admin
 
-## Project info
+Trang quản trị (admin dashboard) cho hệ thống nhà thuốc trực tuyến. Quản trị viên dùng trang này để quản lý sản phẩm, danh mục, nhà cung cấp, đơn hàng, người dùng, chương trình khuyến mãi và cấu hình nội dung hiển thị trên website bán hàng ([pharmacy-ui](../pharmacy-ui)).
 
-**URL**: https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID
+## Công nghệ
 
-## How can I edit this code?
+- **React 18** + **TypeScript**, build bằng **Vite** (plugin SWC)
+- **Tailwind CSS** + **shadcn/ui** (Radix UI), icon **lucide-react**
+- **TanStack React Query**: fetch dữ liệu, cache, mutation
+- **React Router v6**: định tuyến, chặn route khi chưa đăng nhập
+- **Axios** + **js-cookie**: gọi REST API, lưu JWT
+- **Recharts**: biểu đồ trên Dashboard
+- **Vitest** + Testing Library: kiểm thử
 
-There are several ways of editing your application.
+## Chức năng
 
-**Use Lovable**
+| Route | Trang | Mô tả |
+|---|---|---|
+| `/dang-nhap` | Đăng nhập | Đăng nhập bằng tài khoản admin |
+| `/` | Dashboard | Thống kê tổng quan, biểu đồ |
+| `/quan-ly-san-pham` | Sản phẩm | Thêm, sửa, xóa, tìm kiếm sản phẩm, upload ảnh (multipart) |
+| `/quan-ly-danh-muc` | Danh mục | Thêm, sửa, xóa danh mục |
+| `/quan-ly-nha-cung-cap` | Nhà cung cấp | Thêm, sửa, xóa nhà sản xuất kèm logo |
+| `/quan-ly-don-hang` | Đơn hàng | Xem đơn, cập nhật trạng thái đơn hàng và trạng thái thanh toán |
+| `/danh-sach-nguoi-dung` | Người dùng | Danh sách và chi tiết khách hàng |
+| `/quan-ly-su-kien` | Sự kiện / Flash sale | Tạo sự kiện giảm giá, thêm hoặc gỡ sản phẩm khỏi sự kiện |
+| `/quan-ly-the` | Thẻ | Bật/tắt và sắp xếp thứ tự các thẻ ở trang chủ |
+| `/quan-ly-noi-dung` | Nội dung | Bật/tắt và sắp xếp các section ở trang chủ website |
+| `/cai-dat` | Cài đặt | Cài đặt hệ thống |
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and start prompting.
+Mọi route trừ `/dang-nhap` đều bọc trong `ProtectedRoute`. Nếu chưa đăng nhập, người dùng sẽ bị chuyển về trang đăng nhập.
 
-Changes made via Lovable will be committed automatically to this repo.
+## Cấu trúc thư mục
 
-**Use your preferred IDE**
-
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
-
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
-
-Follow these steps:
-
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
-
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
-
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
+```
+src/
+├── components/
+│   ├── ui/                 # Component shadcn/ui
+│   ├── AppHeader.tsx
+│   ├── AppSidebar.tsx
+│   ├── DashboardLayout.tsx # Layout chung: sidebar + header
+│   └── NavLink.tsx
+├── contexts/
+│   └── AuthContext.tsx     # Trạng thái đăng nhập, login/logout
+├── hooks/                  # use-toast, use-mobile
+├── lib/
+│   ├── api.ts              # Axios instance và các nhóm API
+│   └── utils.ts
+├── pages/                  # Mỗi trang quản lý một file
+├── test/                   # Cấu hình và test Vitest
+├── App.tsx                 # Khai báo route, provider
+└── main.tsx
 ```
 
-**Edit a file directly in GitHub**
+## Kết nối backend
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+Cấu hình trong [src/lib/api.ts](src/lib/api.ts):
 
-**Use GitHub Codespaces**
+```ts
+const BASE_URL = "https://pharmacy-webapp-backend-nh7b.onrender.com";
+// const BASE_URL = "http://localhost:8080";   // khi chạy backend local
+```
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+- Request interceptor tự gắn `Authorization: Bearer <token>`, token lấy từ cookie `auth_token`.
+- Response interceptor tự bóc `{ success, message, data }`: nếu `success = false` thì reject kèm `message`, ngược lại trả về `data`.
+- Các nhóm API: `authApi`, `productsApi`, `categoriesApi`, `manufacturerApi`, `billApi`, `usersApi`, `discountEventApi`, `tagsApi`, `sectionsApi`.
 
-## What technologies are used for this project?
+## Cài đặt và chạy
 
-This project is built with:
+Yêu cầu: Node.js 18 trở lên.
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+```sh
+npm install
+npm run dev        # chạy dev tại http://localhost:5173
+```
 
-## How can I deploy this project?
+| Lệnh | Mô tả |
+|---|---|
+| `npm run dev` | Chạy môi trường phát triển |
+| `npm run build` | Build production vào thư mục `dist/` |
+| `npm run preview` | Xem thử bản build |
+| `npm run lint` | Kiểm tra ESLint |
+| `npm test` | Chạy test (Vitest) |
 
-Simply open [Lovable](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and click on Share -> Publish.
+## Deploy
 
-## Can I connect a custom domain to my Lovable project?
-
-Yes, you can!
-
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
+Build ra web tĩnh trong `dist/`. File [public/_redirects](public/_redirects) (`/* /index.html 200`) giúp Netlify trả về `index.html` cho mọi route của SPA.
